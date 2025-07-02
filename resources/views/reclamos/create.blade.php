@@ -6,7 +6,13 @@
     <form method="POST" action="{{ route('reclamos.store') }}">
         @csrf
         <div class="mb-4">
-            <label for="tipo_reclamo_id" class="block font-medium">Tipo de Reclamo:</label>
+            <label for="tipo_reclamo_id" class="block font-medium">Categoría del Reclamo:</label>
+            <select name="tipo_reclamo_id" class="w-full border px-3 py-2 rounded" required>
+                @foreach ($tipos as $tipo)
+                    <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
+                @endforeach
+            </select>
+                        <label for="tipo_reclamo_id" class="block font-medium">Tipo de Reclamo:</label>
             <select name="tipo_reclamo_id" class="w-full border px-3 py-2 rounded" required>
                 @foreach ($tipos as $tipo)
                     <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
