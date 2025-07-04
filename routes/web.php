@@ -4,7 +4,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Reclamos\ReclamoForm;
 use App\Livewire\Reclamos\ReclamoFilter;
-use App\Livewire\Reclamos\ReclamoEstado;
 use App\Livewire\Reclamos\AdminReclamos;
 
 
@@ -22,8 +21,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/reclamos/crear', ReclamoForm::class)->name('reclamos.crear');
-Route::get('/reclamos/filtro', ReclamoFilter::class)->name('reclamos.filtro');
-Route::get('/reclamos/estado', ReclamoEstado::class)->name('reclamos.estado');
 Route::get('/reclamos/admin', AdminReclamos::class)
     ->middleware('can:ver-admin') // si usás autorización
     ->name('reclamos.admin');

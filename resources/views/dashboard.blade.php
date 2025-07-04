@@ -7,13 +7,18 @@
     {{-- Botones de acceso a otras funcionalidades --}}
     <div class="flex flex-wrap gap-4 justify-center mb-6">
         <a href="{{ route('reclamos.crear') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">➕ Crear Reclamo</a>
-        <a href="{{ route('reclamos.filtro') }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">🔍 Filtrar Reclamos</a>
-        <a href="{{ route('reclamos.estado') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">✏️ Editar Estado</a>
+
+        {{-- Botón exclusivo para administradores --}}
+        @if (Auth::user()?->isAdmin())
+            <a href="{{ route('reclamos.admin') }}"
+               class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-semibold transition-colors duration-300 shadow-md">
+               🛠️ PANEL ADMIN
+            </a>
+        @endif
     </div>
 
     {{-- Solo este componente se muestra en el dashboard --}}
     <div class="bg-white rounded-lg shadow p-4">
-        <h2 class="text-xl font-semibold mb-2">📋 Lista de Reclamos (Live)</h2>
         <livewire:reclamos.reclamo-list />
     </div>
 </div>
