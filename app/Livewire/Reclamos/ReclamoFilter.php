@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire\Reclamos;
 
 use Livewire\Component;
 use App\Models\Reclamo;
@@ -18,8 +18,8 @@ class ReclamoFilter extends Component
             $query->where('estado', $this->estado);
         }
 
-        return view('livewire.reclamo-filter', [
+        return view('livewire.reclamos.reclamo-filter', [
             'reclamos' => $query->get(),
-        ]);
+        ])->extends('layouts.app')->section('content'); // usa tu layout de siempre
     }
 }

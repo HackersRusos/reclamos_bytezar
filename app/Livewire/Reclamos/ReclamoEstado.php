@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire\Reclamos;
 
 use Livewire\Component;
 use App\Models\Reclamo;
@@ -27,6 +27,7 @@ class ReclamoEstado extends Component
 
     public function render()
     {
-        return view('livewire.reclamo-estado');
+        return view('livewire.reclamos.reclamo-estado')
+            ->extends('layouts.app')->section('content'); // usa tu layout de siempre
     }
 }

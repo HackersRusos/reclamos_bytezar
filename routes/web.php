@@ -2,26 +2,31 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReclamoController;
+use App\Livewire\Reclamos\ReclamoForm;
+use App\Livewire\Reclamos\ReclamoFilter;
+use App\Livewire\Reclamos\ReclamoEstado;
+use App\Livewire\Reclamos\AdminReclamos;
+
+
+/*Route::get('/', function () {
+    return view('welcome');
+});*/
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('dashboard');
 });
+
 //podriamos hacer el perfil de usuario
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-//pantalla que llamamos "index para reclamos"
-Route::get('/reclamos', [ReclamoController::class, 'index'])->name('reclamos.index');
-
-//vista para crear reclamos
-Route::get('/reclamos/create', [ReclamoController::class, 'create'])->name('reclamos.create');
-
-
-Route::get('/reclamos/store', function(){
-    return view('reclamos.store');
-})-> name ('reclamos.store');
+Route::get('/reclamos/crear', ReclamoForm::class)->name('reclamos.crear');
+Route::get('/reclamos/filtro', ReclamoFilter::class)->name('reclamos.filtro');
+Route::get('/reclamos/estado', ReclamoEstado::class)->name('reclamos.estado');
+Route::get('/reclamos/admin', AdminReclamos::class)
+    ->middleware('can:ver-admin') // si usás autorización
+    ->name('reclamos.admin');
 
 //rutas de seguridad
 Route::middleware('auth')->group(function () {
