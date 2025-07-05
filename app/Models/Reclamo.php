@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reclamo extends Model
 {
+    const ESTADO_PENDIENTE = 'pendiente';
+    const ESTADO_RESUELTO = 'resuelto';
+
     protected $fillable = ['descripcion', 'tipo_reclamo_id', 'user_id', 'estado'];
 
     public function tipo()
     {
-        return $this->belongsTo(TipoReclamo::class);
+        return $this->belongsTo(TipoReclamo::class, 'tipo_reclamo_id');
     }
 
     public function user()

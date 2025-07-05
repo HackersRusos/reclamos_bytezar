@@ -2,32 +2,34 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReclamoController;
+use App\Livewire\Reclamos\ReclamoForm;
+use App\Livewire\Reclamos\AdminReclamos;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('dashboard');
 });
-//podriamos hacer el perfil de usuario
+
+// Panel de usuario común
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-//pantalla que llamamos "index para reclamos"
-Route::get('/reclamos', [ReclamoController::class, 'index'])->name('reclamos.index');
+// Crear reclamo (solo usuarios logueados)
+Route::get('/reclamos/crear', ReclamoForm::class)
+    ->middleware(['auth'])
+    ->name('reclamos.crear');
 
-//vista para crear reclamos
-Route::get('/reclamos/create', [ReclamoController::class, 'create'])->name('reclamos.create');
+// Panel de administración (solo admins autorizados por Gate)
+Route::get('/reclamos/admin', AdminReclamos::class)
+    ->middleware(['auth', 'can:ver-admin'])
+    ->name('reclamos.admin');
 
-
-Route::get('/reclamos/store', function(){
-    return view('reclamos.store');
-})-> name ('reclamos.store');
-
-//rutas de seguridad
+// Rutas para gestionar perfil de usuario
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Rutas de Breeze (login, registro, etc.)
 require __DIR__.'/auth.php';

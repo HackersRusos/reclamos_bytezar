@@ -9,6 +9,8 @@ export default {
         './resources/views/**/*.blade.php',
     ],
 
+    safelist: ['bg-red-600', 'hover:bg-red-700'], // <- agregalo
+
     theme: {
         extend: {
             fontFamily: {

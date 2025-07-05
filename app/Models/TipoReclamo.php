@@ -10,7 +10,7 @@ class TipoReclamo extends Model
 
     public function categoria()
     {
-        return $this->belongsTo(CategoriaReclamo::class);
+        return $this->belongsTo(CategoriaReclamo::class, 'categoria_reclamo_id');
     }
 
     public function reclamos()
