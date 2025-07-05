@@ -10,7 +10,7 @@
                 <th class="px-4 py-2">ID</th>
                 <th class="px-4 py-2">Descripción</th>
                 <th class="px-4 py-2">Tipo</th>
-                <th class="px-4 py-2">Estado</th>
+                <th class="px-4 py-2">pena</th>
             </tr>
         </thead>
         <tbody>
