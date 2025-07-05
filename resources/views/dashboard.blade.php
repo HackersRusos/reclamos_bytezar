@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6 space-y-8">
+<div class="p-6 space-y-8"> 
 
     @if (auth()->user()?->isAdmin())
         <div class="bg-yellow-100 text-yellow-800 p-4 rounded shadow text-center mb-6">

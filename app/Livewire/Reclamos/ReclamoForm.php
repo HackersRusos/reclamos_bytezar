@@ -48,6 +48,7 @@ class ReclamoForm extends Component
 
     public function render()
     {
+        
         return view('livewire.reclamos.reclamo-form', [
             'categorias' => CategoriaReclamo::all(),
         ])->extends('layouts.app')->section('content');

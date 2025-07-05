@@ -6,25 +6,41 @@ use Livewire\Component;
 use App\Models\CategoriaReclamo;
 use App\Models\Reclamo;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class AdminReclamos extends Component
 {
-    public $categorias;
+    public $ultimoId = 0;
+    public $reclamosPendientes = 0;
 
     public function mount()
     {
-        $this->categorias = CategoriaReclamo::with('tipoReclamos.reclamos.user')->get();
+        // Guardamos el ID más reciente y el conteo actual
+        $ultimo = Reclamo::latest('id')->first();
+        $this->ultimoId = $ultimo?->id ?? 0;
+        $this->reclamosPendientes = Reclamo::where('estado', 'pendiente')->count();
     }
 
+    public function verificarNuevosReclamos()
+    {
+        $ultimo = Reclamo::latest('id')->first();
+        $nuevoId = $ultimo?->id ?? 0;
+        $nuevoTotalPendientes = Reclamo::where('estado', 'pendiente')->count();
+    
+        if ($nuevoId > $this->ultimoId || $nuevoTotalPendientes > $this->reclamosPendientes) {
+            $this->ultimoId = $nuevoId;
+            $this->reclamosPendientes = $nuevoTotalPendientes;
+    
+            // Emitimos un evento para JavaScript
+            $this->dispatch('reclamoCreadoGlobal', ['message' => '¡Nuevo reclamo recibido!']);
+        }
+    }
+
+    
     public function actualizarEstado($id, $estado)
     {
         $reclamo = Reclamo::findOrFail($id);
-        if ($reclamo->user_id === Auth::id()) {
-            $reclamo->estado = $estado;
-            $reclamo->save();
-            $this->mount(); // recargar datos
-        }
+        $reclamo->estado = $estado;
+        $reclamo->save();
     }
 
     public function hacerAdmin($id)
@@ -39,7 +55,11 @@ class AdminReclamos extends Component
 
     public function render()
     {
-        return view('livewire.reclamos.admin-reclamos')
-        ->extends('layouts.app')->section('content'); // usa tu layout de siempre
+       $this->verificarNuevosReclamos();
+
+        return view('livewire.reclamos.admin-reclamos', [
+            'categorias' => CategoriaReclamo::with('tipoReclamos.reclamos.user')->get(),
+            'reclamosPendientes' => $this->reclamosPendientes,
+        ])->extends('layouts.app')->section('content');
     }
 }

@@ -1,6 +1,29 @@
-<div class="p-6">
+
+<div x-data @sesion-expirada.window="window.location.href = '/login'" wire:poll.3s> {{-- actualiza cada 10 segundos --}}
     <h2 class="text-3xl font-bold mb-6 text-gray-800">Panel de Reclamos (Admin)</h2>
 
+    <div
+        x-data="{ showNotification: false, message: '' }"
+        x-init="
+            $wire.on('reclamoCreadoGlobal', e => {
+             const audio = new Audio('{{ asset('sounds/notificacion.mp3') }}');
+                audio.play();
+                showNotification = true;
+                message = e.message; // ✅ no uses e.detail
+
+                setTimeout(() => showNotification = false, 10000);
+            });
+        "
+        x-show="showNotification"
+        class="mb-4 px-4 py-2 rounded bg-green-100 text-green-800 border border-green-300 shadow transition-all duration-500"
+        >
+         🔔 ¡Nuevo reclamo recibido!"
+    </div>
+
+    <div class="mb-4 bg-blue-100 border border-blue-300 text-blue-700 px-4 py-2 rounded shadow-sm inline-block">
+     🆕 Reclamos pendientes: <strong>{{ $reclamosPendientes }}</strong>
+    </div>
+                   
     {{-- Mensaje flash --}}
     @if (session()->has('message'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
@@ -21,11 +44,19 @@
                     @else
                         <ul class="space-y-1 ml-4">
                             @foreach ($tipo->reclamos as $reclamo)
-                                <li class="p-2 bg-gray-50 border rounded flex justify-between items-center">
+                                @php
+                                    $esNuevo = now()->diffInMinutes($reclamo->created_at) < 10;
+                                @endphp
+                                
+                                <li class="p-2 border rounded flex justify-between items-center
+                                    @if ($reclamo->estado === 'pendiente') bg-yellow-100 border-yellow-400
+                                    @elseif ($esNuevo) bg-blue-100 border-blue-300
+                                    @else bg-gray-50 @endif">
                                     <div>
                                         <p><strong>Usuario:</strong> {{ $reclamo->user->name ?? 'Sin nombre' }}</p>
                                         <p><strong>Estado:</strong> {{ ucfirst($reclamo->estado) }}</p>
                                         <p><strong>Desc:</strong> {{ $reclamo->descripcion }}</p>
+                                        <p><strong>Fecha:</strong> {{ $reclamo->created_at->format('d/m/Y H:i') }} ({{ $reclamo->created_at->diffForHumans() }})</p>
                                     </div>
                                     @if ($reclamo->estado === 'pendiente')
                                         <button wire:click="actualizarEstado({{ $reclamo->id }}, 'resuelto')"
