@@ -1,10 +1,9 @@
 services:
   - type: web
     name: reclamos-bytezar
-    env: docker
+    env: php
     plan: free
-    branch: main
-    region: southamerica
+    branch: Gustavo
     dockerfilePath: ./Dockerfile
     buildCommand: "" # No hace falta, Dockerfile se encarga
     startCommand: "" # Apache inicia por defecto
