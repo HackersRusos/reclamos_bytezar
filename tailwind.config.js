@@ -4,7 +4,7 @@ const animate = require('tailwindcss-animate');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class', // activar dark mode con clase .dark
+  darkMode: 'class',
   content: [
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
     './storage/framework/views/*.php',
@@ -12,14 +12,14 @@ module.exports = {
     './resources/**/*.js',
     './resources/**/*.vue',
   ],
-  safelist: ['bg-red-600', 'hover:bg-red-700'], // evita que estas clases se purguen (puede ser util para estados dinámicos)
+  safelist: ['bg-red-600', 'hover:bg-red-700'],
   theme: {
     container: {
       center: true,
       padding: '2rem',
       screens: {
         '2xl': '1400px',
-      }
+      },
     },
     extend: {
       fontFamily: {
