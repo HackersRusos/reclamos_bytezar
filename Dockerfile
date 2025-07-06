@@ -27,8 +27,6 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
 # Instalar dependencias PHP
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
-# --- COMPILAR ASSETS VITE ---
-RUN npm install && npm run build
 
 # Instalar Node y construir assets
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
