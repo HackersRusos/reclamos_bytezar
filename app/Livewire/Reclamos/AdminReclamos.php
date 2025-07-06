@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\Auth;
 class AdminReclamos extends Component
 {
     public $categorias;
+    public $categoriaActiva;
 
     public function mount()
     {
         $this->categorias = CategoriaReclamo::with('tipoReclamos.reclamos.user')->get();
+        $this->categoriaActiva = $this->categorias->first()?->id;
     }
 
     public function actualizarEstado($id, $estado)
@@ -37,9 +39,15 @@ class AdminReclamos extends Component
         }
     }
 
+    public function setCategoriaActiva($id)
+    {
+        $this->categoriaActiva = $id;
+    }
+
     public function render()
     {
         return view('livewire.reclamos.admin-reclamos')
-        ->extends('layouts.app')->section('content'); // usa tu layout de siempre
+            ->extends('layouts.app')
+            ->section('content');
     }
 }
