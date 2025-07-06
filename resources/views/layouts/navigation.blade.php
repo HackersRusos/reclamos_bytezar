@@ -10,10 +10,20 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
+                <!-- Navegacion principal -->
                 <div class="hidden space-x-12 sm:-my-px sm:ms-10 sm:flex">
+                    
+                    <x-nav-link :href="route('reclamos.admin')" :active="request()->routeIs('reclamos.admin')">
+                        {{ __('Reclamos') }}
+                    </x-nav-link>
+
+                    @if(auth()->check() && auth()->user()->isAdmin())
+                        <x-nav-link :href="route('admin.usuarios')" :active="request()->routeIs('admin.usuarios')">
+                            {{ __('Gestión de Usuarios') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Palanca') }}
+                        {{ __('Simular Reclamo') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -37,7 +47,7 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
                     </svg>
                     <!-- Oscuro -->
-                    <svg id="sunOn" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg id="sunOn" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-wite hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <circle cx="12" cy="12" r="5" />
                         <line x1="12" y1="1" x2="12" y2="3" />
                         <line x1="12" y1="21" x2="12" y2="23" />
@@ -94,6 +104,16 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('reclamos.admin')" :active="request()->routeIs('reclamos.admin')">
+                {{ __('Reclamos') }}
+            </x-responsive-nav-link>
+
+            @if(auth()->check() && auth()->user()->isAdmin())
+                <x-responsive-nav-link :href="route('admin.usuarios')" :active="request()->routeIs('admin.usuarios')">
+                    {{ __('Gestión de Usuarios') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <div class="px-4 pt-4 pb-1 border-t border-gray-200 dark:border-gray-800">

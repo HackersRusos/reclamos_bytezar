@@ -38,15 +38,7 @@ class AdminReclamos extends Component
         }
     }
 
-    public function hacerAdmin($id)
-    {
-        $usuario = User::find($id);
-        if ($usuario && !$usuario->isAdmin()) {
-            $usuario->is_admin = true;
-            $usuario->save();
-            session()->flash('message', "El usuario {$usuario->name} ahora es administrador.");
-        }
-    }
+
     
     public function setCategoriaActiva($id)
     {

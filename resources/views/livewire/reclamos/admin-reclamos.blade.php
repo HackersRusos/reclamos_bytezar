@@ -83,28 +83,4 @@
             @endif
         @endforeach
 
-        {{-- Gestión de usuarios --}}
-        <section class="p-6 bg-card border rounded shadow-md text-card-foreground">
-            <h3 class="text-2xl font-bold mb-4 text-foreground">Gestión de Usuarios</h3>
-            <ul class="divide-y divide-border">
-                @foreach (\App\Models\User::all() as $user)
-                    <li class="py-3 flex justify-between items-center">
-                        <div>
-                            <p><strong>{{ $user->name }}</strong> - {{ $user->email }}</p>
-                        </div>
-                        @if ($user->isAdmin())
-                            <span class="text-green-600 text-sm font-semibold">Administrador</span>
-                        @else
-                            <button 
-                                wire:click="hacerAdmin({{ $user->id }})"
-                                class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600"
-                            >
-                                Hacer Admin
-                            </button>
-                        @endif
-                    </li>
-                @endforeach
-            </ul>
-        </section>
-    </div>
-</div>
+     
