@@ -42,3 +42,6 @@ RUN chown -R www-data:www-data /var/www/html && \
 
 # Puerto expuesto
 EXPOSE 80
+
+# Cachear configuración y rutas para producción
+RUN php artisan config:cache && php artisan route:cache
