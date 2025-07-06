@@ -4,6 +4,14 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Reclamos\ReclamoForm;
 use App\Livewire\Reclamos\AdminReclamos;
+use App\Livewire\Admin\GestionUsuarios;
+
+
+
+//permisos para el navbar
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/usuarios', GestionUsuarios::class)->name('admin.usuarios');
+});
 
 
 // Panel de usuario común

@@ -9,15 +9,46 @@ use App\Models\User;
 
 class AdminReclamos extends Component
 {
-    public $ultimoId = 0;
-    public $reclamosPendientes = 0;
+    public $categorias;
+    public $categoriaActiva;
+    public $tipoReclamoActivo = [];
+    public $resumenPorCategoria = [];
+  
 
     public function mount()
     {
-        // Guardamos el ID más reciente y el conteo actual
-        $ultimo = Reclamo::latest('id')->first();
-        $this->ultimoId = $ultimo?->id ?? 0;
-        $this->reclamosPendientes = Reclamo::where('estado', 'pendiente')->count();
+        $this->categorias = CategoriaReclamo::with('tipoReclamos.reclamos.user')->get();
+        $this->categoriaActiva = $this->categorias->first()?->id;
+
+        foreach ($this->categorias as $cat) {
+            if ($cat->tipoReclamos->isNotEmpty()) {
+                $this->tipoReclamoActivo[$cat->id] = $cat->tipoReclamos->first()->id;
+            }
+        }
+    }
+
+    public function calcularResumen()
+    {
+        $this->resumenPorCategoria = [];
+
+        foreach ($this->categorias as $cat) {
+            $pendientes = 0;
+            $resueltos = 0;
+
+            foreach ($cat->tipoReclamos as $tipo) {
+                $pendientes += $tipo->reclamos->whereIn('estado', [
+                    Reclamo::ESTADO_PENDIENTE, 
+                    Reclamo::ESTADO_NUEVO
+                ])->count();
+
+                $resueltos += $tipo->reclamos->where('estado', Reclamo::ESTADO_RESUELTO)->count();
+            }
+
+            $this->resumenPorCategoria[$cat->id] = [
+                'pendientes' => $pendientes,
+                'resueltos' => $resueltos,
+            ];
+        }
     }
 
     public function verificarNuevosReclamos()
@@ -39,27 +70,39 @@ class AdminReclamos extends Component
     public function actualizarEstado($id, $estado)
     {
         $reclamo = Reclamo::findOrFail($id);
-        $reclamo->estado = $estado;
-        $reclamo->save();
+        
+        if ($estado === 'nuevo') {
+            $reclamo->estado = 'pendiente';
+            $reclamo->save();
+            $this->mount(); // Esto ya recalcula $categorias
+        }elseif($estado === 'pendiente'){
+            $reclamo->estado ='resuelto';
+            $reclamo->save();
+            $this->mount(); // Esto ya recalcula $categorias
+        }
     }
 
-    public function hacerAdmin($id)
+    public function setCategoriaActiva($id)
     {
-        $usuario = User::find($id);
-        if ($usuario && !$usuario->isAdmin()) {
-            $usuario->is_admin = true;
-            $usuario->save();
-            session()->flash('message', "El usuario {$usuario->name} ahora es administrador.");
+        $this->categoriaActiva = $id;
+
+        $categoria = $this->categorias->firstWhere('id', $id);
+        if ($categoria && $categoria->tipoReclamos->isNotEmpty()) {
+            $this->tipoReclamoActivo[$id] = $categoria->tipoReclamos->first()->id;
         }
+    }
+
+    public function setTipoActivo($categoriaId, $tipoId)
+    {
+        $this->tipoReclamoActivo[$categoriaId] = $tipoId;
     }
 
     public function render()
     {
-       $this->verificarNuevosReclamos();
+        $this->calcularResumen(); // ⚠️ Esto actualiza el resumen siempre antes de pintar la vista
 
-        return view('livewire.reclamos.admin-reclamos', [
-            'categorias' => CategoriaReclamo::with('tipoReclamos.reclamos.user')->get(),
-            'reclamosPendientes' => $this->reclamosPendientes,
-        ])->extends('layouts.app')->section('content');
+        return view('livewire.reclamos.admin-reclamos')
+            ->extends('layouts.app')
+            ->section('content');
     }
 }
