@@ -5,12 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Reclamos\ReclamoForm;
 use App\Livewire\Reclamos\AdminReclamos;
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
 
 // Panel de usuario común
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
