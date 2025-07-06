@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
-
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,14 +22,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
             // Forzar HTTPS si detecta que Render lo envió como cabecera
-        if (request()->header('X-Forwarded-Proto') === 'https') {
+        // Forzar HTTPS si Render envía la cabecera correspondiente
+         if (request()->header('X-Forwarded-Proto') === 'https') {
             URL::forceScheme('https');
         }
     
-        // Laravel 12 confía en proxies automáticamente, pero por las dudas:
-        Request::setTrustedProxies(
+        // Usamos 63 = HEADER_X_FORWARDED_ALL
+        SymfonyRequest::setTrustedProxies(
             [request()->getClientIp()],
-            Request::HEADER_X_FORWARDED_ALL
+            63
         );
+    
     }
 }
