@@ -3,6 +3,12 @@
 @section('content')
 <div class="p-6 space-y-8"> 
 
+    @if (session('message'))
+    <div class="bg-green-100 text-green-700 border px-4 py-2 rounded mb-4 text-center">
+        {{ session('message') }}
+    </div>
+    @endif
+
     @if (auth()->user()?->isAdmin())
         <div class="bg-yellow-100 text-yellow-800 p-4 rounded shadow text-center mb-6">
             ⚠️ Estás accediendo al panel de usuarios, pero sos administrador. Usá el <a href="{{ route('reclamos.admin') }}" class="underline text-blue-600">Panel de Administración</a>.

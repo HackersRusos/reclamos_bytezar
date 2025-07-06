@@ -34,8 +34,9 @@ class ReclamoForm extends Component
             'user_id' => Auth::id(),
         ]);
 
-        session()->flash('message', 'Reclamo enviado correctamente.');
-        $this->reset(['categoria_id', 'tipo_reclamo_id', 'descripcion']);
+        //()->flash('message', 'Reclamo enviado correctamente.');
+        //$this->reset(['categoria_id', 'tipo_reclamo_id', 'descripcion']);
+        return redirect()->route('dashboard')->with('message', 'Reclamo enviado correctamente.');
     }
 
     #[Computed]
