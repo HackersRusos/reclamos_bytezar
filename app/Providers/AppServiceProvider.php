@@ -21,8 +21,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-         if (env('APP_ENV') === 'production') {
+            // Forzar HTTPS si detecta que Render lo envió como cabecera
+        if (request()->header('X-Forwarded-Proto') === 'https') {
             URL::forceScheme('https');
         }
+    
+        // Laravel 12 confía en proxies automáticamente, pero por las dudas:
+        Request::setTrustedProxies(
+            [request()->getClientIp()],
+            Request::HEADER_X_FORWARDED_ALL
+        );
     }
 }
