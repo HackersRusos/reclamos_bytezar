@@ -12,12 +12,21 @@ class AdminReclamos extends Component
 {
     public $categorias;
     public $categoriaActiva;
+    public $tipoReclamoActivo = [];
+
 
     public function mount()
     {
-        $this->categorias = CategoriaReclamo::with('tipoReclamos.reclamos.user')->get();
-        $this->categoriaActiva = $this->categorias->first()?->id;
+    $this->categorias = CategoriaReclamo::with('tipoReclamos.reclamos.user')->get();
+    $this->categoriaActiva = $this->categorias->first()?->id;
+
+    foreach ($this->categorias as $cat) {
+        if ($cat->tipoReclamos->isNotEmpty()) {
+            $this->tipoReclamoActivo[$cat->id] = $cat->tipoReclamos->first()->id;
+        }
     }
+    }
+
 
     public function actualizarEstado($id, $estado)
     {
@@ -38,11 +47,22 @@ class AdminReclamos extends Component
             session()->flash('message', "El usuario {$usuario->name} ahora es administrador.");
         }
     }
-
+    
     public function setCategoriaActiva($id)
     {
-        $this->categoriaActiva = $id;
+    $this->categoriaActiva = $id;
+
+    $categoria = $this->categorias->firstWhere('id', $id);
+    if ($categoria && $categoria->tipoReclamos->isNotEmpty()) {
+        $this->tipoReclamoActivo[$id] = $categoria->tipoReclamos->first()->id;
     }
+    }
+
+    public function setTipoActivo($categoriaId, $tipoId)
+    {
+    $this->tipoReclamoActivo[$categoriaId] = $tipoId;
+    }
+
 
     public function render()
     {
