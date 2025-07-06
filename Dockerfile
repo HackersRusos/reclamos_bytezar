@@ -30,6 +30,12 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
 # --- COMPILAR ASSETS VITE ---
 RUN npm install && npm run build
 
+# Instalar Node y construir assets
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install && \
+    npm run build
+
 # Establecer permisos correctos
 RUN chown -R www-data:www-data /var/www/html && \
     chmod -R 755 /var/www/html && \
