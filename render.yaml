@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: reclamos-bytezar
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    buildCommand: ""
+    startCommand: "./start-server.sh"
+    autoDeploy: true
