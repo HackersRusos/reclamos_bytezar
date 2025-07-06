@@ -14,6 +14,7 @@ class AdminReclamos extends Component
     public $categoriaActiva;
     public $tipoReclamoActivo = [];
     public $resumenPorCategoria = [];
+  
 
     public function mount()
     {
@@ -54,9 +55,13 @@ class AdminReclamos extends Component
     public function actualizarEstado($id, $estado)
     {
         $reclamo = Reclamo::findOrFail($id);
-
-        if ($reclamo->user_id === Auth::id()) {
-            $reclamo->estado = $estado;
+        
+        if ($estado === 'nuevo') {
+            $reclamo->estado = 'pendiente';
+            $reclamo->save();
+            $this->mount(); // Esto ya recalcula $categorias
+        }elseif($estado === 'pendiente'){
+            $reclamo->estado ='resuelto';
             $reclamo->save();
             $this->mount(); // Esto ya recalcula $categorias
         }

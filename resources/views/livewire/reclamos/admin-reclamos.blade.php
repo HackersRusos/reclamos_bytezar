@@ -71,6 +71,14 @@
                                                          </div>
                                                      </div>
                                                 <div class="flex flex-col gap-2 min-w-[12rem] text-right">
+                                                    @if ($reclamo->estado === 'nuevo')
+                                                        <button 
+                                                            wire:click="actualizarEstado({{ $reclamo->id }}, 'pendiente')"
+                                                            class="w-full px-3 py-1 bg-yellow-600 text-white text-sm rounded hover:bg-yellow-700"
+                                                        >
+                                                            Marcar como pendiente
+                                                        </button>
+                                                    @endif
                                                     @if ($reclamo->estado === 'pendiente')
                                                         <button 
                                                             wire:click="actualizarEstado({{ $reclamo->id }}, 'resuelto')"
@@ -80,12 +88,11 @@
                                                         </button>
                                                     @endif
                                                     @if ($reclamo->estado === 'resuelto')
-                                                        <button 
-                                                            wire:click="actualizarEstado({{ $reclamo->id }}, 'pendiente')"
-                                                            class="w-full px-3 py-1 bg-yellow-500 text-white text-sm rounded hover:bg-yellow-600"
-                                                        >
-                                                            Marcar como pendiente
-                                                        </button>
+                                                        <div class="p-3 bg-background border rounded text-center">
+                                                
+                                                        <strong class="text-green-800">Resuelto</strong>
+                                                
+                                                         </div>
                                                     @endif
                                                 </div>
                                             </li>

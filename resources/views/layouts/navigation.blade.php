@@ -12,19 +12,20 @@
 
                 <!-- Navegacion principal -->
                 <div class="hidden space-x-12 sm:-my-px sm:ms-10 sm:flex">
-                    
+                    @if(auth()->check() && auth()->user()->isAdmin())
                     <x-nav-link :href="route('reclamos.admin')" :active="request()->routeIs('reclamos.admin')">
                         {{ __('Reclamos') }}
                     </x-nav-link>
 
-                    @if(auth()->check() && auth()->user()->isAdmin())
+                    
                         <x-nav-link :href="route('admin.usuarios')" :active="request()->routeIs('admin.usuarios')">
                             {{ __('Gestión de Usuarios') }}
                         </x-nav-link>
-                    @endif
+                  
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Simular Reclamo') }}
                     </x-nav-link>
+                      @endif
                 </div>
             </div>
 
