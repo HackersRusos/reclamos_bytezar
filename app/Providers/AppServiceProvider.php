@@ -21,10 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        /* Forzar HTTPS si Render envía la cabecera correspondiente
+        // Forzar HTTPS si Render envía la cabecera correspondiente
          if (request()->header('X-Forwarded-Proto') === 'https') {
             URL::forceScheme('https');
-        }*/
+        }
 
     
         // Usamos 63 = HEADER_X_FORWARDED_ALL
