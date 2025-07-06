@@ -8,30 +8,4 @@ services:
     dockerfilePath: ./Dockerfile
     buildCommand: "" # No hace falta, Dockerfile se encarga
     startCommand: "" # Apache inicia por defecto
-    envVars:
-      - key: APP_ENV
-        value: production
-      - key: APP_DEBUG
-        value: false
-      - key: APP_URL
-        value: https://reclamos-bytezar.onrender.com
-      - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_HOST
-        value: aws-0-sa-east-1.pooler.supabase.com
-      - key: DB_PORT
-        value: 5432
-      - key: DB_DATABASE
-        value: postgres
-      - key: DB_USERNAME
-        value: postgres.evbjwlppyqltlvwgtcpm
-      - key: DB_PASSWORD
-        value: Bytezar1234.
-      - key: SESSION_DRIVER
-        value: file
-      - key: CACHE_DRIVER
-        value: file
-      - key: QUEUE_CONNECTION
-        value: sync
-      - key: LOG_CHANNEL
-        value: stderr
+    
