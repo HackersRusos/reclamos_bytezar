@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(LoginResponse::class, CustomLoginResponse::class);
     }
 
     /**
@@ -22,13 +22,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // Forzar HTTPS si Render envía la cabecera correspondiente
-        URL::forceScheme('https');
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            URL::forceScheme('https');
+        }
 
     
         // Confiar en el proxy de Railway
         SymfonyRequest::setTrustedProxies(
-            ['*'],
-            255
+            [request()->getClientIp()],
+            63 // HEADER_X_FORWARDED_ALL
         );
     }
 
