@@ -27,10 +27,10 @@ class AppServiceProvider extends ServiceProvider
         }
 
     
-        // Usamos 63 = HEADER_X_FORWARDED_ALL
-       SymfonyRequest::setTrustedProxies(
-            [request()->getClientIp()],
-            63 // HEADER_X_FORWARDED_ALL
+        // Confiar en el proxy de Railway
+        SymfonyRequest::setTrustedProxies(
+            ['*'],
+            SymfonyRequest::HEADER_X_FORWARDED_ALL
         );
     }
 

@@ -10,5 +10,27 @@ services:
     envVars:
       - key: APP_ENV
         value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        value: base64:NTeQ4/GZenpSbAczSsMN731XbT4tT/xAFeeJV7ju9Ss=
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_DOMAIN
+        value: reclamosbytezar.up.railway.app
       - key: SESSION_SECURE_COOKIE
         value: true
+      - key: SESSION_SAME_SITE
+        value: lax
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: aws-0-sa-east-1.pooler.supabase.com
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: postgres
+      - key: DB_USERNAME
+        value: postgres.evbjwlppyqltlvwgtcpm
+      - key: DB_PASSWORD
+        value: Bytezar1234.
