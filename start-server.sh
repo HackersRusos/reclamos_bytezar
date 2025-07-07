@@ -2,12 +2,6 @@
 
 echo "🚀 Iniciando start-server.sh..."
 
-# Verificar si .env existe
-if [ ! -f .env ]; then
-  echo ".env no encontrado. Abortando."
-  exit 1
-fi
-
 # Limpiar y cachear configuración
 php artisan config:clear
 php artisan config:cache
