@@ -14,19 +14,24 @@ class AdminReclamos extends Component
     public $categoriaActiva;
     public $tipoReclamoActivo = [];
     public $resumenPorCategoria = [];
+    public $search = '';
+
   
 
     public function mount()
     {
-        $this->categorias = CategoriaReclamo::with('tipoReclamos.reclamos.user')->get();
-        $this->categoriaActiva = $this->categorias->first()?->id;
+    // Cargamos las categorías solo para inicializar datos, sin relaciones profundas
+    $this->categorias = CategoriaReclamo::with('tipoReclamos')->get();
 
-        foreach ($this->categorias as $cat) {
-            if ($cat->tipoReclamos->isNotEmpty()) {
-                $this->tipoReclamoActivo[$cat->id] = $cat->tipoReclamos->first()->id;
-            }
+    $this->categoriaActiva = $this->categorias->first()?->id;
+
+    foreach ($this->categorias as $cat) {
+        if ($cat->tipoReclamos->isNotEmpty()) {
+            $this->tipoReclamoActivo[$cat->id] = $cat->tipoReclamos->first()->id;
         }
     }
+    }
+
 
     public function calcularResumen()
     {
@@ -52,20 +57,21 @@ class AdminReclamos extends Component
         }
     }
 
-    public function actualizarEstado($id, $estado)
+    public function actualizarEstado($id)
     {
         $reclamo = Reclamo::findOrFail($id);
-        
-        if ($estado === 'nuevo') {
+    
+        // Transición de estado basada en el actual
+        if ($reclamo->estado === 'nuevo') {
             $reclamo->estado = 'pendiente';
-            $reclamo->save();
-            $this->mount(); // Esto ya recalcula $categorias
-        }elseif($estado === 'pendiente'){
-            $reclamo->estado ='resuelto';
-            $reclamo->save();
-            $this->mount(); // Esto ya recalcula $categorias
+        } elseif ($reclamo->estado === 'pendiente') {
+            $reclamo->estado = 'resuelto';
         }
+    
+        $reclamo->save();
+       
     }
+
 
     public function setCategoriaActiva($id)
     {
