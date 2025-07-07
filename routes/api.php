@@ -13,5 +13,5 @@ Route::get('/reclamos-por-estado', [ReclamoApiController::class, 'reclamosPorEst
 
 Route::get('/reclamos-por-usuario', [ReclamoApiController::class, 'reclamosPorUsuario']);
 
-Route::get('/resumen-usuario', [ReclamoApiController::class, 'resumenPorUsuario']);
+
 
