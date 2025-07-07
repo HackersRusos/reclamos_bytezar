@@ -1,83 +1,64 @@
-# Reclamos-BYTEZAR
+# Reclamos BYTEZAR
 
-Sistema web de gestión de reclamos desarrollado en Laravel, Livewire y PostgreSQL, desplegado en Railway mediante Docker.
+Sistema de gestión de reclamos desarrollado con Laravel y Livewire.
 
-## 📌 Descripción
+## 🚀 Descripción del Proyecto
 
-**Reclamos-BYTEZAR** es una plataforma de gestión de reclamos ciudadanos que permite:
+Reclamos BYTEZAR es una aplicación web que permite a los usuarios crear, visualizar y hacer seguimiento de reclamos, y a los administradores gestionarlos de manera eficiente. El sistema fue desarrollado con Laravel + Livewire y desplegado usando **Render**.
 
-- Crear reclamos públicos o privados
-- Clasificarlos por categoría y tipo
-- Administrarlos desde un panel especial con control de roles
-- Asignar estados y realizar seguimientos
-- Notificar cambios y mostrar estadísticas
-- Filtrar por estado, tipo, usuario y más
+## 🎯 Funcionalidades
 
-Este proyecto utiliza **Laravel 12**, **Livewire**, **Volt**, **PostgreSQL**, y está desplegado en **Railway** usando Docker.
+- Autenticación de usuarios con Laravel Breeze
+- Formulario de reclamos dinámico con categorías y tipos cargados automáticamente
+- Validaciones en tiempo real con Livewire
+- Filtrado de reclamos por estado, tipo y categoría
+- Dashboard personalizado para administradores y usuarios
+- Notificaciones automáticas para nuevos reclamos
+- Control de roles y acceso
+- Migraciones automáticas y caché de configuración en producción
+- Despliegue en Render usando Docker
 
----
+## ⚙️ Tecnologías utilizadas
 
-## ⚙️ Tecnologías
-
-- Laravel 12
-- Livewire + Volt
-- PostgreSQL
-- Docker
-- Apache 2.4
-- Render
 - PHP 8.2
----
+- Laravel 10.x
+- Livewire 3 (con Volt)
+- PostgreSQL
+- Docker + Apache
+- Render (hosting)
+- GitHub + Railway (pruebas de despliegue)
+- Breeze (auth)
+- Tailwind CSS
 
-## 🧾 Estructura del Proyecto
+## 🚢 Despliegue
 
-- `app/Livewire`: Componentes Livewire para reclamos, dashboard, formularios, administración.
-- `database/migrations`: Estructura de tablas para reclamos, usuarios, categorías, tipos, etc.
-- `routes/web.php`: Rutas protegidas según rol (cliente o admin).
-- `start-server.sh`: Script de inicio que compila configuraciones y corre migraciones.
-- `Dockerfile`: Imagen de la app con Apache + PHP + Node.
-- `render.yaml`: Anteriormente usado para despliegue en Render.
-- `.env`: Variables de entorno configuradas en Railway (a través de "Environment Variables").
+La aplicación fue desplegada en [Render.com](https://reclamos-bytezar.onrender.com/) con el siguiente stack:
 
----
+- `Dockerfile` que instala dependencias, configura Apache y ejecuta los comandos de build y migración
+- `render.yaml` que configura el servicio web y define comandos de inicio
+- Script `start-server.sh` para cachear config/rutas, migrar y levantar el servidor
 
-## 🐳 Docker
+## 📁 Estructura clave
 
-Este proyecto se ejecuta en un contenedor Docker personalizado:
+- `app/Livewire/Reclamos` → Componentes Livewire para crear y listar reclamos
+- `resources/views` → Plantillas Blade
+- `public/` → Archivos estáticos y favicon
+- `.env` → Variables de entorno (manejadas desde el dashboard de Render)
 
-```dockerfile
-# Imagen base
-FROM php:8.2-apache
+## 🛠️ Consideraciones importantes
 
-# Dependencias del sistema
-RUN apt-get update && apt-get install -y \
-    libpq-dev zip unzip git curl libzip-dev libonig-dev nodejs npm \
-    && docker-php-ext-install pdo pdo_pgsql zip
+- En producción, `APP_ENV=production` y `SESSION_SECURE_COOKIE=true` para manejo correcto de cookies
+- `APP_URL` y `ASSET_URL` deben coincidir con la URL de Render para evitar errores con assets y sesiones
+- El `.env` no se sube al repositorio. Las variables se cargan manualmente en Render (en la sección de Environment Variables)
 
-# Configuración de Apache
-RUN a2enmod rewrite
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+## 🧑‍💻 Autores
 
-# Archivos del proyecto
-COPY . /var/www/html
-WORKDIR /var/www/html
+Proyecto desarrollado por un grupo de 6 estudiantes de la carrera **Tecnicatura Universitaria en Programación** de la **Universidad Tecnológica Nacional - Facultad Regional Resistencia, Sede Extensión Áulica Formosa**, como parte de la materia **Programación III**, y aplicado al emprendimiento **BYTEZAR**.
 
-# Composer y dependencias
-RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
-
-# Node y Vite
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install && \
-    npm run build
-
-# Permisos
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Puerto
-EXPOSE 80
-
-# Script de inicio
-CMD ["./start-server.sh"]
+### Integrantes del grupo:
+- Javier Quintana
+- Sofía Vera
+- Gabriela Heretichi
+- Leandro Nacimento
+- Manuel Recalde
+- Gustavo Gines

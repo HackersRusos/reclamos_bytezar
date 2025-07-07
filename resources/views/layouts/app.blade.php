@@ -32,7 +32,13 @@
 
             <!-- contenido de pagina -->
             <main>
-                @yield('content')
+                {{-- Si el componente usa slot (Livewire), se muestra --}}
+                @isset($slot)
+                    {{ $slot }}
+                @else
+                    {{-- Si la vista usa secciones tradicionales, se muestra esta --}}
+                    @yield('content')
+                @endisset
             </main>
         </div>
 
