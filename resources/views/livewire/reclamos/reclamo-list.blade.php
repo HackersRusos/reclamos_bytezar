@@ -90,35 +90,35 @@
         </tbody>
     </table>
 
-    {{-- Modal de respuestas --}}
-    @if ($reclamoSeleccionado)
-        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white p-6 rounded shadow-lg w-full max-w-lg">
-                <h2 class="text-lg font-bold mb-4">
-                    Respuestas al reclamo: {{ $reclamoSeleccionado->titulo }}
-                </h2>
-
-                <div class="bg-white p-6 rounded shadow-lg w-full max-w-lg text-foreground">                
-                    <ul class="list-disc list-inside space-y-2 text-black">
+   {{-- Modal de respuestas --}}
+        @if ($reclamoSeleccionado)
+            <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white dark:bg-zinc-900 p-6 rounded shadow-lg w-full max-w-lg text-foreground dark:text-white">
+                    <h2 class="text-lg font-bold mb-4 text-foreground dark:text-white">
+                        Respuestas al reclamo: {{ $reclamoSeleccionado->titulo }}
+                    </h2>
+        
+                    <ul class="list-disc list-inside space-y-2 text-foreground dark:text-zinc-200">
                         @forelse ($reclamoSeleccionado->respuestas as $respuesta)
                             <li>
                                 <strong>Admin ({{ $respuesta->admin->name ?? 'Desconocido' }}):</strong>
                                 {{ $respuesta->contenido }}
-                                <div class="text-xs text-muted-foreground">
+                                <div class="text-xs text-muted-foreground dark:text-zinc-400">
                                     {{ $respuesta->created_at->format('d/m/Y H:i') }}
                                 </div>
                             </li>
                         @empty
-                            <li class="text-muted-foreground">Aún no hay respuestas para este reclamo.</li>
+                            <li class="text-muted-foreground dark:text-zinc-400">
+                                Aún no hay respuestas para este reclamo.
+                            </li>
                         @endforelse
                     </ul>
-
-                                    
+        
                     <button wire:click="cerrarModal"
-                        class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                        class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
                         Cerrar
                     </button>
                 </div>
-        </div>
-    @endif
+            </div>
+        @endif
 </div>
