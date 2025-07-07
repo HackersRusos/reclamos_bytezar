@@ -43,7 +43,7 @@ class AdminReclamos extends Component
 
             foreach ($cat->tipoReclamos as $tipo) {
                 $pendientes += $tipo->reclamos->whereIn('estado', [
-                    Reclamo::ESTADO_PENDIENTE, 
+                    Reclamo::ESTADO_PENDIENTE,
                     Reclamo::ESTADO_NUEVO
                 ])->count();
 

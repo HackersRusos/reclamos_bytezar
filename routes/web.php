@@ -1,11 +1,12 @@
  <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReclamoController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Reclamos\ReclamoForm;
 use App\Livewire\Reclamos\AdminReclamos;
 use App\Livewire\Admin\GestionUsuarios;
-
+use App\Livewire\Reclamos\ResponderReclamo;
 
 
 //permisos para el navbar
@@ -38,3 +39,7 @@ Route::middleware('auth')->group(function () {
 
 // Rutas de Breeze (login, registro, etc.)
 require __DIR__.'/auth.php';
+// Recibe una solicitud POST desde un formulario .Usa el método responder del ReclamoController.
+Route::post('/reclamos/{id}/responder', [ReclamoController::class, 'responder'])
+    ->middleware(['auth', 'can:ver-admin'])
+    ->name('reclamos.responder');
