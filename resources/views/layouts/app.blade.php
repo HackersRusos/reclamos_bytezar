@@ -28,7 +28,7 @@
                 </header>
             @endisset
 
-            <!-- Page Content -->
+            <!-- contenido de pagina -->
             <main>
                 @yield('content')
             </main>
@@ -36,7 +36,7 @@
 
         @livewireScripts
 
-        <!-- Dark Mode Script -->
+        <!-- Modo oscuro -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const toggleButtons = [
