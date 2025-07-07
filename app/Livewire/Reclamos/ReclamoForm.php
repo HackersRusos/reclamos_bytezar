@@ -32,6 +32,7 @@ class ReclamoForm extends Component
             'tipo_reclamo_id' => $this->tipo_reclamo_id,
             'descripcion' => $this->descripcion,
             'user_id' => Auth::id(),
+            'estado' => Reclamo::ESTADO_NUEVO,
         ]);
 
         session()->flash('message', 'Reclamo enviado correctamente.');

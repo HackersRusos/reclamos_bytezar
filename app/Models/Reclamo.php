@@ -8,8 +8,9 @@ class Reclamo extends Model
 {
     const ESTADO_PENDIENTE = 'pendiente';
     const ESTADO_RESUELTO = 'resuelto';
+    const ESTADO_NUEVO = 'nuevo';
 
-    protected $fillable = ['descripcion', 'tipo_reclamo_id', 'user_id', 'estado'];
+    protected $fillable = ['descripcion', 'tipo_reclamo_id', 'user_id', 'estado', 'respuesta', 'respondido'];
 
     public function tipo()
     {
