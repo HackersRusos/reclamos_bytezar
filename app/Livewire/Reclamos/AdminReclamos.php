@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\CategoriaReclamo;
 use App\Models\Reclamo;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AdminReclamos extends Component
 {
