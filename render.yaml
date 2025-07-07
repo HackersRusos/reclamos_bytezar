@@ -5,6 +5,14 @@ services:
     plan: free
     branch: Gustavo
     dockerfilePath: ./Dockerfile
-    buildCommand: "" # No hace falta, Dockerfile se encarga
-    startCommand: "" # Apache inicia por defecto
-    
+    buildCommand: ""
+    startCommand: "./start-server.sh"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SESSION_SECURE_COOKIE
+        value: true
+      - key: APP_URL
+        value: https://reclamosbytezar-production.up.railway.app/
+      - key: ASSET_URL
+        value: https://reclamosbytezar-production.up.railway.app/

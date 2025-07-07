@@ -38,12 +38,13 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 RUN chown -R www-data:www-data /var/www/html && \
     chmod -R 755 /var/www/html && \
     chmod -R 755 /var/www/html/storage && \
-    chmod -R 755 /var/www/html/bootstrap/cache
-
+    chmod -R 755 /var/www/html/bootstrap/cache && \
+    chmod +x /var/www/html/start-server.sh  # <-- Agregado
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Puerto expuesto
 EXPOSE 80
 
-
+# Comando de inicio
+CMD ["./start-server.sh"]
