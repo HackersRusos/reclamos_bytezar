@@ -1,4 +1,5 @@
-<div class="p-4">
+
+<div x-data @sesion-expirada.window="window.location.href = '/login'" wire:poll.3s> {{-- actualiza cada 10 segundos --}}
     <h2 class="text-2xl font-bold mb-6">📋 Mis Reclamos</h2>
 
     {{-- Filtros --}}
@@ -6,7 +7,7 @@
         {{-- Categoría --}}
         <div>
             <label class="block text-sm font-medium mb-1">Categoría:</label>
-            <select wire:model.lazy="categoria_id" class="border rounded px-3 py-2">
+            <select wire:model="categoria_id" class="border rounded px-3 py-2">
                 <option value="">Todas</option>
                 @foreach ($categorias as $categoria)
                     <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>

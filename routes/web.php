@@ -7,9 +7,6 @@ use App\Livewire\Reclamos\AdminReclamos;
 use App\Livewire\Admin\GestionUsuarios;
 
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
 
 //permisos para el navbar
 Route::middleware(['auth'])->group(function () {
@@ -18,7 +15,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 // Panel de usuario común
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
