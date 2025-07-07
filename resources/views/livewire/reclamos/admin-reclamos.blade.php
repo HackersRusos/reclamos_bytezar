@@ -73,9 +73,7 @@
                                                 </div>
 
                                                 {{-- Acciones del reclamo --}}
-                                                <div class="flex flex-col gap-3 min-w-[16rem] text-right">
-
-                                                    {{-- NUEVO → mostrar "Marcar como pendiente" y "Responder" --}}
+                                                <div class="flex flex-col gap-3 min-w-[16rem] text-right">                                                   
                                                     @if ($reclamo->estado === 'nuevo' && $mostrarFormularioId !== $reclamo->id)
                                                         <button 
                                                             wire:click="actualizarEstado({{ $reclamo->id }}, 'pendiente')"
@@ -85,42 +83,7 @@
                                                     @endif
 
                                                     {{-- MOSTRAR FORMULARIO --}}
-                                                    @if (!$reclamo->respondido)
-                                                        @if ($reclamo->id)
-                                                            {{-- Solo muestra el formulario si está activo --}}
-                                                            <form wire:submit.prevent="responder({{ $reclamo->id }})" class="mt-2">
-                                                                <textarea wire:model.defer="respuesta" rows="3"
-                                                                    class="w-full border rounded p-2 text-sm"
-                                                                    placeholder="Escribí tu respuesta..."></textarea>
-                                                                @error('respuesta') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-
-                                                                <div class="flex gap-2 mt-2">
-                                                                    <button type="submit"
-                                                                        class="bg-green-600 text-white px-3 py-1 text-sm rounded hover:bg-green-700">
-                                                                        Enviar respuesta
-                                                                    </button>
-                                                                    <button type="button"
-                                                                        wire:click="toggleFormulario(null)"
-                                                                        class="px-3 py-1 border text-sm rounded">
-                                                                        Cancelar
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        @else
-                                                            {{-- Mostrar botón para abrir formulario --}}
-                                                            <button 
-                                                                wire:click="toggleFormulario({{ $reclamo->id }})"
-                                                                class="bg-blue-600 text-white px-3 py-1 text-sm rounded hover:bg-blue-700">
-                                                                Responder
-                                                            </button>
-                                                        @endif
-                                                    @else
-                                                        {{-- Ya fue respondido --}}
-                                                        <div class="p-2 bg-background border rounded text-center">
-                                                            <strong class="text-green-800">Resuelto</strong>
-                                                            <p class="text-sm text-green-700 font-semibold">Ya fue respondido</p>
-                                                        </div>
-                                                    @endif
+                                                    <livewire:reclamos.responder-reclamo :reclamo-id="$reclamo->id" :key="'responder-'.$reclamo->id" />
 
                                                 </div>
 
