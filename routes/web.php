@@ -33,3 +33,9 @@ Route::middleware('auth')->group(function () {
 
 // Rutas de Breeze (login, registro, etc.)
 require __DIR__.'/auth.php';
+
+//Perfil de los desarrolladores
+Route::get('/desarrolladores', function () {
+    return view('desarrolladores');
+})->middleware(['auth'])->name('desarrolladores');
+

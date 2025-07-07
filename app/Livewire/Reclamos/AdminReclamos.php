@@ -11,13 +11,19 @@ class AdminReclamos extends Component
 {
     public $ultimoId = 0;
     public $reclamosPendientes = 0;
+    public $categorias;
+    public $categoriaActiva;
 
     public function mount()
     {
-        // Guardamos el ID más reciente y el conteo actual
+        // Para notificación de nuevos reclamos
         $ultimo = Reclamo::latest('id')->first();
         $this->ultimoId = $ultimo?->id ?? 0;
         $this->reclamosPendientes = Reclamo::where('estado', 'pendiente')->count();
+
+        // Para organización por categorías
+        $this->categorias = CategoriaReclamo::with('tipoReclamos.reclamos.user')->get();
+        $this->categoriaActiva = $this->categorias->first()?->id;
     }
 
     public function verificarNuevosReclamos()
@@ -25,17 +31,15 @@ class AdminReclamos extends Component
         $ultimo = Reclamo::latest('id')->first();
         $nuevoId = $ultimo?->id ?? 0;
         $nuevoTotalPendientes = Reclamo::where('estado', 'pendiente')->count();
-    
+
         if ($nuevoId > $this->ultimoId || $nuevoTotalPendientes > $this->reclamosPendientes) {
             $this->ultimoId = $nuevoId;
             $this->reclamosPendientes = $nuevoTotalPendientes;
-    
-            // Emitimos un evento para JavaScript
+
             $this->dispatch('reclamoCreadoGlobal', ['message' => '¡Nuevo reclamo recibido!']);
         }
     }
 
-    
     public function actualizarEstado($id, $estado)
     {
         $reclamo = Reclamo::findOrFail($id);
@@ -53,12 +57,17 @@ class AdminReclamos extends Component
         }
     }
 
+    public function setCategoriaActiva($id)
+    {
+        $this->categoriaActiva = $id;
+    }
+
     public function render()
     {
-       $this->verificarNuevosReclamos();
+        $this->verificarNuevosReclamos();
 
         return view('livewire.reclamos.admin-reclamos', [
-            'categorias' => CategoriaReclamo::with('tipoReclamos.reclamos.user')->get(),
+            'categorias' => $this->categorias,
             'reclamosPendientes' => $this->reclamosPendientes,
         ])->extends('layouts.app')->section('content');
     }
