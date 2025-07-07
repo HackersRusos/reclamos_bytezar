@@ -13,6 +13,6 @@ services:
       - key: SESSION_SECURE_COOKIE
         value: true
       - key: APP_URL
-        value: https://reclamosbytezar-production.up.railway.app/
+        value: https://reclamos-bytezar.onrender.com/
       - key: ASSET_URL
-        value: https://reclamosbytezar-production.up.railway.app/
+        value: https://reclamos-bytezar.onrender.com/
