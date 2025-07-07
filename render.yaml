@@ -12,4 +12,3 @@ services:
         value: production
       - key: SESSION_SECURE_COOKIE
         value: true
-

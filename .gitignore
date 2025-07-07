@@ -22,6 +22,8 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 .env.example
+.env copy
+/public/build/assets/
 
 .env.local
 

@@ -21,4 +21,14 @@ class Reclamo extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function respuestas()
+    {
+    return $this->hasMany(Respuesta::class);
+    }
+
+    public function ultimaRespuesta()
+    {
+        return $this->hasOne(Respuesta::class)->latestOfMany();
+    }
 }

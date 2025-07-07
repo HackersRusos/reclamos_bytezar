@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', '') }}</title>
+        <title>Bytezar</title>
+
+        <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -28,15 +30,21 @@
                 </header>
             @endisset
 
-            <!-- Page Content -->
+            <!-- contenido de pagina -->
             <main>
-                @yield('content')
+                {{-- Si el componente usa slot (Livewire), se muestra --}}
+                @isset($slot)
+                    {{ $slot }}
+                @else
+                    {{-- Si la vista usa secciones tradicionales, se muestra esta --}}
+                    @yield('content')
+                @endisset
             </main>
         </div>
 
         @livewireScripts
 
-        <!-- Dark Mode Script -->
+        <!-- Modo oscuro -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const toggleButtons = [

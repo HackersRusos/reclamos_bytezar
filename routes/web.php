@@ -1,11 +1,12 @@
  <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReclamoController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Reclamos\ReclamoForm;
 use App\Livewire\Reclamos\AdminReclamos;
 use App\Livewire\Admin\GestionUsuarios;
-
+use App\Livewire\Reclamos\ResponderReclamo;
 
 
 //permisos para el navbar
@@ -34,7 +35,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
 });
 
 // Rutas de Breeze (login, registro, etc.)
 require __DIR__.'/auth.php';
+// Recibe una solicitud POST desde un formulario .Usa el método responder del ReclamoController.
+Route::post('/reclamos/{id}/responder', [ReclamoController::class, 'responder'])
+    ->middleware(['auth', 'can:ver-admin'])
+    ->name('reclamos.responder');

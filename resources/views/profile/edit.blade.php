@@ -1,30 +1,28 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Perfil') }}
-        </h2>
-    </x-slot>
+  <div class="bg-blue-100 dark:bg-gray-800 min-h-screen">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
+      {{-- Información de perfil ocupa todo el ancho --}}
+      <section class="p-6 border rounded-lg bg-card shadow-md text-card-foreground space-y-6">
+        @include('profile.partials.update-profile-information-form')
+      </section>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
+      {{-- Grilla para contraseña y eliminar cuenta --}}
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                   
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
-        </div>
+        {{-- Cambio de contraseña (2 columnas) --}}
+        <section class="md:col-span-2 p-6 border rounded-lg bg-card shadow-md text-card-foreground space-y-6">
+          @include('profile.partials.update-password-form')
+        </section>
+
+        {{-- Eliminar cuenta (1 columna) --}}
+        <section class="md:col-span-1 p-6 border rounded-lg bg-card shadow-md text-card-foreground space-y-6">
+          @include('profile.partials.delete-user-form')
+        </section>
+
+      </div>
+
     </div>
+  </div>
 </x-app-layout>
+

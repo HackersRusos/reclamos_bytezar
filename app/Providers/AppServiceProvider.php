@@ -11,15 +11,15 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
+    public function register()
     {
-        $this->app->singleton(LoginResponse::class, CustomLoginResponse::class);
+        //
     }
 
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot()
     {
         // Forzar HTTPS si Render envía la cabecera correspondiente
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
