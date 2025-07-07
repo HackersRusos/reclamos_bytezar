@@ -34,6 +34,16 @@ class ReclamoList extends Component
         $this->reset(['categoria_id', 'tipo_reclamo_id', 'estado']);
     }
 
+    public function verRespuestas($reclamoId)
+    {
+        $this->reclamoSeleccionado = Reclamo::with('respuestas.admin')->find($reclamoId);
+    }
+
+    public function cerrarModal()
+    {
+        $this->reclamoSeleccionado = null;
+    }
+
     public function render()
     {
         $query = Reclamo::with(['tipo.categoria', 'respuestas'])
@@ -59,16 +69,5 @@ class ReclamoList extends Component
     }
 
     public $reclamoSeleccionado = null;
-
-    public function verRespuestas($reclamoId)
-    {
-        $this->reclamoSeleccionado = Reclamo::with('respuestas')->find($reclamoId);
-    }
-
-    public function cerrarModal()
-    {
-        $this->reclamoSeleccionado = null;
-    }
-
 
 }

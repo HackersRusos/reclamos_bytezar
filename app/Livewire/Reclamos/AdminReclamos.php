@@ -59,12 +59,32 @@ class AdminReclamos extends Component
         $this->tipoReclamoActivo[$categoriaId] = $tipoId;
     }
 
+    public function actualizarEstado($id, $nuevoEstado = null)
+    {
+        $reclamo = Reclamo::findOrFail($id);
+
+        if ($nuevoEstado) {
+            $reclamo->estado = $nuevoEstado;
+        } elseif ($reclamo->estado === 'nuevo') {
+            $reclamo->estado = 'pendiente';
+        } elseif ($reclamo->estado === 'pendiente') {
+            $reclamo->estado = 'resuelto';
+        }
+
+        $reclamo->save();
+    }
+
     public function render()
     {
         $this->calcularResumen();
 
-        return view('livewire.reclamos.admin-reclamos')
-            ->extends('layouts.app')
-            ->section('content');
+        return view('livewire.reclamos.admin-reclamos', [
+            'categorias' => $this->categorias,
+            'categoriaActiva' => $this->categoriaActiva,
+            'tipoReclamoActivo' => $this->tipoReclamoActivo,
+            'resumenPorCategoria' => $this->resumenPorCategoria,
+        ])
+        ->extends('layouts.app')
+        ->section('content');
     }
 }

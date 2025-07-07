@@ -98,21 +98,27 @@
                     Respuestas al reclamo: {{ $reclamoSeleccionado->titulo }}
                 </h2>
 
-                @if ($reclamoSeleccionado->respuestas->isEmpty())
-                    <p class="text-gray-600">Aún no hay respuestas.</p>
-                @else
-                    <ul class="list-disc list-inside space-y-1">
-                        @foreach ($reclamoSeleccionado->respuestas as $respuesta)
-                            <li>{{ $respuesta->contenido }}</li>
-                        @endforeach
+                <div class="bg-white p-6 rounded shadow-lg w-full max-w-lg text-foreground">                
+                    <ul class="list-disc list-inside space-y-2 text-black">
+                        @forelse ($reclamoSeleccionado->respuestas as $respuesta)
+                            <li>
+                                <strong>Admin ({{ $respuesta->admin->name ?? 'Desconocido' }}):</strong>
+                                {{ $respuesta->contenido }}
+                                <div class="text-xs text-muted-foreground">
+                                    {{ $respuesta->created_at->format('d/m/Y H:i') }}
+                                </div>
+                            </li>
+                        @empty
+                            <li class="text-muted-foreground">Aún no hay respuestas para este reclamo.</li>
+                        @endforelse
                     </ul>
-                @endif
 
-                <button wire:click="cerrarModal"
-                    class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                    Cerrar
-                </button>
-            </div>
+                                    
+                    <button wire:click="cerrarModal"
+                        class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                        Cerrar
+                    </button>
+                </div>
         </div>
     @endif
 </div>

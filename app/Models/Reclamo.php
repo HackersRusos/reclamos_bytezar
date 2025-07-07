@@ -10,7 +10,7 @@ class Reclamo extends Model
     const ESTADO_RESUELTO = 'resuelto';
     const ESTADO_NUEVO = 'nuevo';
 
-    protected $fillable = ['descripcion', 'tipo_reclamo_id', 'user_id', 'estado', 'respuesta', 'respondido'];
+    protected $fillable = ['descripcion', 'tipo_reclamo_id', 'user_id', 'estado'];
 
     public function tipo()
     {
@@ -25,5 +25,10 @@ class Reclamo extends Model
     public function respuestas()
     {
     return $this->hasMany(Respuesta::class);
+    }
+
+    public function ultimaRespuesta()
+    {
+        return $this->hasOne(Respuesta::class)->latestOfMany();
     }
 }

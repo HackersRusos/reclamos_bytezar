@@ -1,12 +1,11 @@
-
 <section class="p-6 border rounded-lg bg-card shadow-md text-card-foreground space-y-6 max-w-4xl mx-auto">
     <h2 class="text-3xl font-bold text-foreground mb-6">Panel de Reclamos (Admin)</h2>
 
     {{-- Tabs de Categorías --}}
     <nav class="flex flex-wrap gap-2 mb-6 border-b">
         @foreach ($categorias as $categoria)
-             @php
-            $resumen = $resumenPorCategoria[$categoria->id] ?? ['pendientes' => 0, 'resueltos' => 0];
+            @php
+                $resumen = $resumenPorCategoria[$categoria->id] ?? ['pendientes' => 0, 'resueltos' => 0];
             @endphp
 
             <button 
@@ -18,7 +17,6 @@
                 {{ $categoria->nombre }} ({{ $resumen['pendientes'] }}/{{ $resumen['resueltos'] }})
             </button>
         @endforeach
-
     </nav>
 
     {{-- Contenido dinámico --}}
@@ -28,13 +26,10 @@
                 <section class="p-6 border rounded-lg bg-card shadow-md text-card-foreground">
 
                     {{-- Navbar de Tipos de Reclamos --}}
-                   <nav class="flex flex-wrap gap-2 mb-6 border-b">
+                    <nav class="flex flex-wrap gap-2 mb-6 border-b">
                         @foreach ($categoria->tipoReclamos as $tipo)
                             @php
-                                $countPendientes = $tipo->reclamos->whereIn('estado', [
-                                    \App\Models\Reclamo::ESTADO_PENDIENTE,
-                                    \App\Models\Reclamo::ESTADO_NUEVO
-                                ])->count();
+                                $countPendientes = $tipo->reclamos->whereIn('estado', ['nuevo', 'pendiente'])->count();
                             @endphp
 
                             <button 
@@ -42,8 +37,7 @@
                                 class="px-4 py-2 text-sm font-medium border-b-2 transition-colors duration-200 
                                     {{ ($tipoReclamoActivo[$categoria->id] ?? null) === $tipo->id 
                                         ? 'border-primary text-primary' 
-                                        : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted' }}"
-                            >
+                                        : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted' }}">
                                 {{ $tipo->nombre }} ({{ $countPendientes }})
                             </button>
                         @endforeach
@@ -53,7 +47,7 @@
                     @foreach ($categoria->tipoReclamos as $tipo)
                         @if (($tipoReclamoActivo[$categoria->id] ?? null) === $tipo->id)
                             <div class="mb-6">
-                                <h4 class="text-xl font-semibold text-muted-foreground mb-2"> {{ $tipo->nombre }}</h4>
+                                <h4 class="text-xl font-semibold text-muted-foreground mb-2">{{ $tipo->nombre }}</h4>
                                 @if ($tipo->reclamos->isEmpty())
                                     <p class="text-sm text-muted-foreground italic">Sin reclamos</p>
                                 @else
@@ -73,23 +67,34 @@
                                                 </div>
 
                                                 {{-- Acciones del reclamo --}}
-                                                <div class="flex flex-col gap-3 min-w-[16rem] text-right">                                                   
-                                                    @if ($reclamo->estado === 'nuevo' && $mostrarFormularioId !== $reclamo->id)
+                                                <div class="flex flex-col gap-3 min-w-[16rem] text-right">
+                                                
+                                                    {{-- Estado NUEVO → mostrar botón de marcar como pendiente --}}
+                                                    @if ($reclamo->estado === 'nuevo')
                                                         <button 
-                                                            wire:click="actualizarEstado({{ $reclamo->id }}, 'pendiente')"
+                                                            wire:click="actualizarEstado({{ $reclamo->id }})"
                                                             class="px-3 py-1 bg-yellow-600 text-white text-sm rounded hover:bg-yellow-700">
                                                             Marcar como pendiente
                                                         </button>
                                                     @endif
-
-                                                    {{-- MOSTRAR FORMULARIO --}}
-                                                    <livewire:reclamos.responder-reclamo :reclamo-id="$reclamo->id" :key="'responder-'.$reclamo->id" />
-
+                                                
+                                                    {{-- Estado PENDIENTE o NUEVO → mostrar componente de respuesta --}}
+                                                    @if (!$reclamo->respondido)
+                                                        <livewire:reclamos.responder-reclamo 
+                                                            :reclamo-id="$reclamo->id" 
+                                                            :key="'responder-'.$reclamo->id" />
+                                                    @else
+                                                        {{-- Ya fue respondido --}}
+                                                        <div class="p-2 bg-background border rounded text-center">
+                                                            <strong class="text-green-800">Resuelto</strong>
+                                                            <p class="text-sm text-green-700 font-semibold">Ya fue respondido</p>
+                                                        </div>
+                                                    @endif
+                                                
                                                 </div>
 
                                             </li>
                                         @endforeach
-
                                     </ul>
                                 @endif
                             </div>
