@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 class ProfileController extends Controller
 {
@@ -35,6 +37,19 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+    public function updatePassword(Request $request): RedirectResponse
+    {
+    $request->validate([
+        'current_password' => ['required', 'current_password'],
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    ]);
+
+    $request->user()->update([
+        'password' => Hash::make($request->password),
+    ]);
+
+    return back()->with('status', 'password-updated');
     }
 
     /**
