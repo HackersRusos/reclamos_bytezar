@@ -9,7 +9,7 @@
                 class="p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 aria-label="Toggle Dark Mode">
                 <!-- Sol apagado (modo claro) -->
-                <svg id="sunOff" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg id="sunOff" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <circle cx="12" cy="12" r="5" />
                   <line x1="12" y1="1" x2="12" y2="3" />
                   <line x1="12" y1="21" x2="12" y2="23" />
@@ -21,7 +21,7 @@
                   <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
                 </svg>
                 <!-- Sol prendido (modo oscuro) -->
-                <svg id="sunOn" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg id="sunOn" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <circle cx="12" cy="12" r="5" />
                   <line x1="12" y1="1" x2="12" y2="3" />
                   <line x1="12" y1="21" x2="12" y2="23" />
