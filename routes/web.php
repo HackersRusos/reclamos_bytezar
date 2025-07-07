@@ -45,3 +45,9 @@ require __DIR__.'/auth.php';
 Route::post('/reclamos/{id}/responder', [ReclamoController::class, 'responder'])
     ->middleware(['auth', 'can:ver-admin'])
     ->name('reclamos.responder');
+
+//Perfil de los desarrolladores
+Route::get('/desarrolladores', function () {
+    return view('desarrolladores');
+})->middleware(['auth'])->name('desarrolladores');
+
