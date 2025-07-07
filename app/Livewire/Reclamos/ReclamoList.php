@@ -21,8 +21,6 @@ class ReclamoList extends Component
          $this->categorias = \App\Models\CategoriaReclamo::with('tipoReclamos')->get();
     }
 
-
-
     #[Computed]
     public function tipos()
     {
@@ -38,7 +36,7 @@ class ReclamoList extends Component
 
     public function render()
     {
-        $query = Reclamo::with('tipo.categoria')
+        $query = Reclamo::with(['tipo.categoria', 'respuestas'])
             ->where('user_id', Auth::id());
     
         if ($this->categoria_id) {
@@ -59,5 +57,18 @@ class ReclamoList extends Component
             'reclamos' => $query->get()
         ])->extends('layouts.app')->section('content');
     }
+
+    public $reclamoSeleccionado = null;
+
+    public function verRespuestas($reclamoId)
+    {
+        $this->reclamoSeleccionado = Reclamo::with('respuestas')->find($reclamoId);
+    }
+
+    public function cerrarModal()
+    {
+        $this->reclamoSeleccionado = null;
+    }
+
 
 }
