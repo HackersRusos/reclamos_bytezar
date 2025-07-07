@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         // Confiar en el proxy de Railway
         SymfonyRequest::setTrustedProxies(
             ['*'],
-            SymfonyRequest::HEADER_FORWARDED_ALL
+            255
         );
     }
 
