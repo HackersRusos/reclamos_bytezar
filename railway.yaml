@@ -3,7 +3,7 @@ services:
     name: reclamos-bytezar
     env: php
     plan: free
-    branch: Gustavo
+    branch: develop
     dockerfilePath: ./Dockerfile
     buildCommand: ""
     startCommand: "./start-server.sh"

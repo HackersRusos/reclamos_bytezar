@@ -30,7 +30,6 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
 
 # Instalar Node y construir assets
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
     npm install && \
     npm run build
 
