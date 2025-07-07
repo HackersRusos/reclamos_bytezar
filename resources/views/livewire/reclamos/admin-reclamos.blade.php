@@ -86,7 +86,7 @@
 
                                                     {{-- MOSTRAR FORMULARIO --}}
                                                     @if (!$reclamo->respondido)
-                                                        @if ($mostrarFormularioId === $reclamo->id)
+                                                        @if ($reclamo->id)
                                                             {{-- Solo muestra el formulario si está activo --}}
                                                             <form wire:submit.prevent="responder({{ $reclamo->id }})" class="mt-2">
                                                                 <textarea wire:model.defer="respuesta" rows="3"

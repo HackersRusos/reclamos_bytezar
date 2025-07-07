@@ -32,13 +32,11 @@ class ResponderReclamo extends Component
         $reclamo = Reclamo::findOrFail($this->reclamoId);
         $reclamo->respuesta = $this->respuesta;
         $reclamo->respondido = true;
-        $reclamo->estado = 'resuelto'; // ✅ Cambia automáticamente el estado
+        $reclamo->estado = 'resuelto'; // Marca automáticamente como resuelto
         $reclamo->save();
 
         $this->respuesta = '';
         $this->mostrarFormulario = false;
-
-        $this->dispatch('reclamoRespondido'); // opcional, si querés reaccionar desde afuera
     }
 
     public function render()
@@ -46,7 +44,7 @@ class ResponderReclamo extends Component
         $reclamo = Reclamo::find($this->reclamoId);
 
         return view('livewire.reclamos.responder-reclamo', [
-            'reclamo' => $reclamo
+            'reclamo' => $reclamo,
         ]);
     }
 }
