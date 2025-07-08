@@ -17,6 +17,12 @@ class AdminReclamos extends Component
 
     public function mount()
     {
+        // Para notificación de nuevos reclamos
+        $ultimo = Reclamo::latest('id')->first();
+        $this->ultimoId = $ultimo?->id ?? 0;
+        $this->reclamosPendientes = Reclamo::where('estado', 'pendiente')->count();
+
+        // Para organización por categorías
         $this->categorias = CategoriaReclamo::with('tipoReclamos.reclamos.user')->get();
         $this->categoriaActiva = $this->categorias->first()?->id;
 
@@ -56,17 +62,15 @@ class AdminReclamos extends Component
         $ultimo = Reclamo::latest('id')->first();
         $nuevoId = $ultimo?->id ?? 0;
         $nuevoTotalPendientes = Reclamo::where('estado', 'pendiente')->count();
-    
+
         if ($nuevoId > $this->ultimoId || $nuevoTotalPendientes > $this->reclamosPendientes) {
             $this->ultimoId = $nuevoId;
             $this->reclamosPendientes = $nuevoTotalPendientes;
-    
-            // Emitimos un evento para JavaScript
+
             $this->dispatch('reclamoCreadoGlobal', ['message' => '¡Nuevo reclamo recibido!']);
         }
     }
 
-    
     public function actualizarEstado($id, $estado)
     {
         $reclamo = Reclamo::findOrFail($id);

@@ -59,6 +59,13 @@
                 });
             });
         </script>
+<footer class="bg-gray-200 dark:bg-gray-900 text-center text-sm text-gray-600 dark:text-gray-400 py-4 mt-12">
+    Desarrolladores –
+    <a href="{{ route('desarrolladores') }}" class="underline hover:text-blue-600 dark:hover:text-blue-400">
+        Ver más
+    </a>
+</footer>
+
     </body>
 </html>
 
